@@ -1,0 +1,51 @@
+public with sharing class AccountHandler {
+    public static void createContact(List<Account> accList){
+        try{
+            List<contact> conList=new List<contact>();
+            //System.debug('accSize'+accList.size()); 
+            
+            if(accList.size()>0){
+                // System.debug('One');
+                for(Account acc:accList){
+                    //System.debug('two');
+                    // System.debug(' acc.Type ::'+ acc.Type);
+                    if(acc.Actives__c == true && acc.Type =='Customer')
+                    {
+                        //System.debug('three');
+                        if(acc.contacts.size()==0 && acc.Name !='Skywalk Inc'){
+                            System.debug('four');
+                            contact contactObj= new contact();
+                            contactObj.FirstName = acc.Name;
+                            contactObj.LastName='Customer Representative';
+                            contactObj.AccountId= acc.id;
+                            ContactObj.Email = acc.Company_Email__c;
+                            contactObj.Phone = acc.Phone;
+                            conList.add(contactObj);
+                        }
+                        if(acc.contacts.size()==0 && acc.Name == 'Skywalk Inc'){
+                            System.debug('five');
+                            contact contactObj= new contact();
+                            contactObj.FirstName = 'Skywalk';
+                            contactObj.LastName='Customer Representative';
+                            contactObj.AccountId= acc.id;
+                            ContactObj.Email = acc.Company_Email__c;
+                            contactObj.Phone = acc.Phone;
+                            conList.add(contactObj);
+                        }
+                    }
+                    if(acc.Actives__c == true && acc.Activation_Summary__c ==NULL)
+                    {
+                        acc.addError('Please Fill Activation Summery');                    
+                    }
+                }
+            }
+            if(conList.size()>0){
+                insert conList;
+            }
+        }
+        catch(Exception e){
+            System.debug('Error is: '+e.getMessage()+' In line number:'+e.getLineNumber());
+        }
+    }
+    
+}
