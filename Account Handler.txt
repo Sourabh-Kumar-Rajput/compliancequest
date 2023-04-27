@@ -1,19 +1,15 @@
 public with sharing class AccountHandler {
     public static void createContact(List<Account> accList){
         try{
-            List<contact> conList=new List<contact>();
-            //System.debug('accSize'+accList.size()); 
-            
-            if(accList.size()>0){
-                // System.debug('One');
-                for(Account acc:accList){
-                    //System.debug('two');
-                    // System.debug(' acc.Type ::'+ acc.Type);
+            List<contact> conList=new List<contact>();   
+            if(accList.size()>0)
+            {               
+                for(Account acc:accList)
+                {          
                     if(acc.Actives__c == true && acc.Type =='Customer')
-                    {
-                        //System.debug('three');
-                        if(acc.contacts.size()==0 && acc.Name !='Skywalk Inc'){
-                            System.debug('four');
+                    {                      
+                        if(acc.contacts.size()==0 && acc.Name !='Skywalk Inc')
+                        {                            
                             contact contactObj= new contact();
                             contactObj.FirstName = acc.Name;
                             contactObj.LastName='Customer Representative';
@@ -23,7 +19,7 @@ public with sharing class AccountHandler {
                             conList.add(contactObj);
                         }
                         if(acc.contacts.size()==0 && acc.Name == 'Skywalk Inc'){
-                            System.debug('five');
+                           
                             contact contactObj= new contact();
                             contactObj.FirstName = 'Skywalk';
                             contactObj.LastName='Customer Representative';
